@@ -1,0 +1,36 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.restaurant-name {
+    text-align: center;
+    font-family: 'Questrial', sans-serif;
+    font-size: 4rem;
+}
+
+.dish {
+    display: flex;
+    background: rgba(121, 121, 122, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+    opacitiy: 80%;
+}
+
+.dish-img-c {
+    padding-right: 10px;
+}
+
+.dish-info-c {
+    padding-left: 10px;
+}
+
+.dish-img {
+    max-height: 100%;
+    width: auto;
+    border-radius: 10px;
+}
+
+
+.dish-name {
+    font-family: 'Questrial', sans-serif;
+}
