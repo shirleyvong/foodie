@@ -1,0 +1,60 @@
+<% include ../partials/header %>
+
+<div class="container">
+    <div class="row header align-items-center justify-content-between mb-4">
+        <div class="col-md-auto my-3 text-center">
+            <h1 class="m-2">Restaurants be here</h1>
+        </div>
+        <div class="col-md-auto my-3 text-center">
+            <button type="button" class="restaurant-btn" data-toggle="modal" data-target="#newRestModal">
+                New restaurant
+            </button>
+        </div>
+    </div>
+
+    <div class="row">
+        <% restaurants.forEach(rest => { %>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 p-3 justify-content-center">
+                <div class="grid-item-wrapper">
+                    <div class="grid-restaurant">
+                        <a href="/restaurants/<%= rest.id %>">
+                            <% if (rest.dishes.length != 0) { %>
+                                <img src="<%= rest.dishes[0].image %>" class="restaurant-img" alt="..."></img>
+                            <% } else { %>
+                                <div class="restaurant-no-img">No dishes!</div>
+                            <% } %>
+                        </a>
+                        <div class="restaurant-name"><%= rest.name %></div>
+                    </div>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+
+
+    <div class="modal fade" id="newRestModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Add new restaurant</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/restaurants" method="POST">
+                    <div class="modal-body">
+                        <div>Restaurant name:</div>
+                        <input type="text" name="name">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn modal-btn-close" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn modal-btn-action">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<% include ../partials/footer %>

@@ -1,0 +1,125 @@
+<% include ../partials/header %>
+
+<div class="container">
+    
+    <div class="row header align-items-center justify-content-between mb-4">
+        <div class="col-md-auto text-center my-3">
+            <h1 class="m-2"><%= restaurant.name %></h1>
+        </div>
+        <div class="col-md-auto text-center my-3">
+            <button type="button" class="restaurant-btn" data-toggle="modal" data-target="#newModal">
+                New dish
+            </button>
+
+            <button type="button" class="restaurant-btn" data-toggle="modal" data-target="#editModal">
+                Edit restaurant
+            </button>
+
+            <button type="button" class="restaurant-btn" data-toggle="modal" data-target="#deleteModal">
+                Delete restaurant
+            </button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="m-container">
+            <% restaurant.dishes.forEach(d => { %>
+                <div class="grid-item">
+                    <a href="/restaurants/<%= restaurant._id %>/<%= d._id %>">
+                    <div class="img-wrapper">
+                        <img class="dish-img" src="<%= d.image %>"> 
+                        <div class="name-overlay">
+                            <div class="dish-name"><%= d.name %></div>
+                        </div>
+                    </div>
+                    </a>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</div>
+
+
+   <!-- Modal to add new dish  -->
+   
+   <div class="modal fade" id="newModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Add new dish</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/restaurants/<%= restaurant._id %>" method="post">
+                    <div class="modal-body">                            
+                        <div>Name:</div>
+                        <input id="name" type="text" name="name"><br>
+                        <div>Image URL:</div>
+                        <input type="url" name="image"><br>
+                        <div>Price:</div>
+                        <input type="number" name="price" min="0.01" step="0.01"><br>    
+                        <div>Comment:</div>
+                        <textarea type="text" name="comment" rows="10"></textarea><br>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn modal-btn-close" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn modal-btn-action">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal to edit restaurant -->
+    
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Edit restaurant</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/restaurants/<%= restaurant._id %>?_method=PUT" method="POST">
+                    <div class="modal-body">
+                        <div>Restaurant name:</div>
+                        <input type="text" name="restaurant[name]" value="<%= restaurant.name %>">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn modal-btn-close" data-dismiss="modal">Close</button>
+                        <button type="update" class="btn modal-btn-action">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal to delete restaurant -->
+
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Delete restaurant</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/restaurants/<%= restaurant._id %>/?_method=DELETE" method="POST">
+                    <div class="modal-body">
+                        Are you sure you would like to delete this restaurant?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn modal-btn-close" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn modal-btn-action">Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+   
+<script src="/js/show.js"></script>
+<% include ../partials/footer %>
+
