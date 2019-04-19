@@ -1,52 +1,49 @@
 var express = require("express");
-var router = express.Router();
+var router = express.Router({mergeParams: true});
 var Restaurant = require("../models/restaurant");
-
-// Display all restaurants
-router.get("/", (req, res) => {
-    Restaurant.find({}).populate("dishes").exec((err, restaurants) => {
-        if (err) {
-            console.log(err);
-        } else {
-            res.render("restaurants/index", {restaurants: restaurants});
-        }
-    })
-})
-
-// Route to edit and update restaurant
-router.put("/:id", (req, res) => {
-    Restaurant.findByIdAndUpdate(req.params.id, req.body.restaurant, (err, restaurant) => {
-        if (err) {
-            console.log(err);
-        } else {
-            res.redirect("/restaurants/" + req.params.id);
-        }
-    })
-})
+var User = require("../models/user")
+const middleware = require("../middleware/index")
 
 // Route to create a new restaurant
-router.post("/", (req, res) => {
+router.post("/", middleware.checkDiaryOwnership, (req, res) => {
+    const author = {
+        id: req.user._id,
+        username: req.user.username
+    };
+
     const newRestaurant = {
-        name: req.body.name
+        name: req.body.name,
+        author: author
     };
 
     Restaurant.create(newRestaurant, (err, restaurant) => {
         if (err) {
             console.log(err);
         } else {
-            console.log("created restaurant: ", restaurant);
-            res.redirect("/restaurants");
+            console.log(req.user.username + "/restaurants");
+            res.redirect("/diary/" + req.user.username + "/restaurants" + restaurant._id);
+        }
+    })
+})
+
+// Route to edit and update restaurant
+router.put("/:id", middleware.checkRestaurantOwnership, (req, res) => {
+    Restaurant.findByIdAndUpdate(req.params.id, req.body.restaurant, (err, restaurant) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.redirect("/diary/" + req.user.username + "/restaurants/" + req.params.id);
         }
     })
 })
 
 // Route to delete a restaurant
-router.delete("/:id", (req, res) => {
+router.delete("/:id", middleware.checkRestaurantOwnership, (req, res) => {
     Restaurant.findByIdAndDelete(req.params.id, (err) => {
         if (err) {
             console.log(err);
         } else {
-            res.redirect("/restaurants");
+            res.redirect("/diary/" + req.user.username);
         }
     })
 })
@@ -57,7 +54,7 @@ router.get("/:id", (req, res) => {
         if (err) {
             console.log(err);
         } else {
-            res.render("restaurants/show", {restaurant: restaurant});
+            res.render("restaurants/show", {restaurant: restaurant, user: req.params.username, currentUser: req.user});
         }
     })
 });

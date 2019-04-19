@@ -55,6 +55,10 @@ html, body {
   color: #6c757d;
 }
 
+.restaurant-no-img:hover {
+
+}
+
 @media screen and (min-width: 768px) {
   .restaurant-img, .restaurant-no-img {
     width: 300px;
