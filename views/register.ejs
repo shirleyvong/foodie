@@ -1,13 +1,14 @@
-<% include ./partials/header %>
+<% include ./partials/header %>        
 
-<h1>Register page</h1>
-
-<form action="/register" method="POST">
-    Username:
-    <input type="text" name="username">
-    Password:
-    <input type="text" name="password">
-    <input type="submit" value="Register">
-</form>
+<div class="container">
+    <div class="login-container">
+        <h3>Create a new account</h3>
+        <form action="/register" method="POST">
+            <input class="form-control" type="text" name="username" placeholder="username"><br>
+            <input class="form-control" type="password" name="password" placeholder="password"><br>
+            <input class="btn modal-btn-action" type="submit" value="Register"></input>
+        </form>
+    </div>
+</div>           
 
 <% include ./partials/footer %>

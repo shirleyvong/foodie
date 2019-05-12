@@ -17,13 +17,14 @@ router.get("/diary/:username", (req, res) => {
         if (err) {
             console.log(err);
         } else if (!foundUser) {
-            res.render("userNotFound");
+            res.render("restaurants/diary", { exists: false });
         } else {
             Restaurant.find({"author.username": username}).populate("dishes").exec((err, restaurants) => {
                 if (err) {
                     console.log(err);
                 } else {
                     res.render("restaurants/diary", {
+                        exists: true, 
                         restaurants: restaurants, 
                         user: username, 
                         currentUser: req.user, 

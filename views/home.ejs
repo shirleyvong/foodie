@@ -14,65 +14,18 @@
 
         <link rel="stylesheet" type="text/css" href="/stylesheets/index.css">
     </head>
-    <style>
-        body {
-            background-image: url("https://images.pexels.com/photos/1640773/pexels-photo-1640773.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260");
-            background-size: cover;
-        }
 
-        html, body {
-            height: 100%;
-        }
-
-        .home-register-container {
-            background-color: rgba(0, 0, 0, 0.6);
-        }
-
-        .home-register-container h3 {
-            color: white;
-        }
-
-        .home-register-form {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-    </style>
-    <body>
-        <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="/restaurants">food.ie</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto">
-                    <form class="form-inline my-2 my-lg-0" action="/login" method="POST">
-                        <input class="form-control mr-sm-2" type="text" name="username" placeholder="Username" aria-label="Username">
-                        <input class="form-control mr-sm-2" type="text" name="password" placeholder="Password" aria-label="Password">
-                        <button class="btn modal-btn-action my-2 my-sm-0" type="submit">Login</button>
-                    </form>
-                </ul>
-            </div>
-        </nav>
-
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-6 d-flex flex-column align-items-center home-register-container p-5 m-5">
-                    <h3 class="text-center">
-                        Share your food diary, filled with pages of food and drinks from your favourite restaurants.
-                    </h3>
-                    <h3 class="py-2 text-center">Create a new account</h3>
-                    <form class="home-register-form" action="/register" method="POST">
-                        <input class="form-control" type="text" name="username" placeholder="Username"><br>
-                        <input class="form-control" type="text" name="password" placeholder="Password"><br>
-                        <input class="form-control" type="text" placeholder="Confirm password"><br>
-                        <input class="btn modal-btn-action my-2 my-sm-0" type="submit" value="Register"></input>
-                    </form>
+    <body class="home-body">
+        <div class="home-container">
+                <div class="jumbotron">
+                    <h1 class="display-4">Welcome to foodie.</h1>
+                    <p class="lead">Share your food diary, filled with pages of food and drinks from your favourite restaurants.</p>
+                    <hr class="my-4">
+                        <a class="btn btn-lg modal-btn-action" href="/register" role="button">Register</a>
+                        <a class="btn btn-lg modal-btn-action" href="/login" role="button">Login</a>
+                    </p>
                 </div>
-            </div>
-        </div>        
+        </div>
 
         <!-- Bootstrap -->
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -81,3 +34,7 @@
     </body>
 </html>
 
+
+
+
+<% include ./partials/footer %>        

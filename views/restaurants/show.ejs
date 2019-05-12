@@ -1,37 +1,40 @@
 <% include ../partials/header %>
 
 <div class="container">
-    
-    <div class="row header align-items-center justify-content-between mb-4">
-        <div class="col-md-auto text-center my-3">
-            <h1 class="m-2"><%= restaurant.name %></h1>
+    <div class="row header-row">
+        <div class="col-md-auto header-wrapper">
+            <h1 class="header"><%= restaurant.name %></h1>
         </div>
-        <div class="col-md-auto text-center my-3">
-            <button type="button" class="restaurant-btn" data-toggle="modal" data-target="#newModal">
-                New dish
-            </button>
 
-            <button type="button" class="restaurant-btn" data-toggle="modal" data-target="#editModal">
-                Edit restaurant
-            </button>
+        <% if (currentUser && currentUser.username === user) { %>
+            <div class="col-md-auto header-wrapper">
+                <button type="button" class="header-btn" data-toggle="modal" data-target="#new-dish">
+                    New dish
+                </button>
 
-            <button type="button" class="restaurant-btn" data-toggle="modal" data-target="#deleteModal">
-                Delete restaurant
-            </button>
-        </div>
+                <button type="button" class="header-btn" data-toggle="modal" data-target="#edit-dish">
+                    Edit restaurant
+                </button>
+
+                <button type="button" class="header-btn" data-toggle="modal" data-target="#delete-dish">
+                    Delete restaurant
+                </button>
+            </div>
+        <% } %>
     </div>
 
+    <!-- Grid to display dishes from restaurant -->
     <div class="row">
-        <div class="m-container">
+        <div class="dish-grid">
             <% restaurant.dishes.forEach(d => { %>
-                <div class="grid-item">
-                    <a href="/restaurants/<%= restaurant._id %>/<%= d._id %>">
-                    <div class="img-wrapper">
-                        <img class="dish-img" src="<%= d.image %>"> 
-                        <div class="name-overlay">
-                            <div class="dish-name"><%= d.name %></div>
+                <div class="dish-grid-item">
+                    <a href="/diary/<%= user %>/restaurants/<%= restaurant._id %>/dishes/<%= d._id %>">
+                        <div class="dish-grid-item-wrapper">
+                            <img class="dish-grid-item-img" src="<%= d.image %>"> 
+                            <div class="dish-grid-item-overlay">
+                                <div class="dish-grid-item-name"><%= d.name %></div>
+                            </div>
                         </div>
-                    </div>
                     </a>
                 </div>
             <% }) %>
@@ -39,19 +42,18 @@
     </div>
 </div>
 
-
+<% if (currentUser && currentUser.username === user) { %>
    <!-- Modal to add new dish  -->
-   
-   <div class="modal fade" id="newModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+   <div class="modal fade" id="new-dish" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Add new dish</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <h5 class="modal-title">Add new dish</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
                     </button>
                 </div>
-                <form action="/restaurants/<%= restaurant._id %>" method="post">
+                <form action="/diary/<%= user %>/restaurants/<%= restaurant._id %>/dishes" method="post">
                     <div class="modal-body">                            
                         <div>Name:</div>
                         <input id="name" type="text" name="name"><br>
@@ -72,17 +74,16 @@
     </div>
     
     <!-- Modal to edit restaurant -->
-    
-    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="edit-dish" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Edit restaurant</h5>
+                    <h5 class="modal-title">Edit restaurant</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                        <span>&times;</span>
                     </button>
                 </div>
-                <form action="/restaurants/<%= restaurant._id %>?_method=PUT" method="POST">
+                <form action="/diary/<%= user %>/restaurants/<%= restaurant._id %>?_method=PUT" method="POST">
                     <div class="modal-body">
                         <div>Restaurant name:</div>
                         <input type="text" name="restaurant[name]" value="<%= restaurant.name %>">
@@ -97,17 +98,16 @@
     </div>
     
     <!-- Modal to delete restaurant -->
-
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="delete-dish" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Delete restaurant</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                    <h5 class="modal-title">Delete restaurant</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
                     </button>
                 </div>
-                <form action="/restaurants/<%= restaurant._id %>/?_method=DELETE" method="POST">
+                <form action="/diary/<%= user %>/restaurants/<%= restaurant._id %>/?_method=DELETE" method="POST">
                     <div class="modal-body">
                         Are you sure you would like to delete this restaurant?
                     </div>
@@ -119,7 +119,8 @@
             </div>
         </div>
     </div>
+<% } %>
+
    
-<script src="/js/show.js"></script>
 <% include ../partials/footer %>
 

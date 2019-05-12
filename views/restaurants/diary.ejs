@@ -1,65 +1,74 @@
 <% include ../partials/header %>
 
-<div class="container">
-    <div class="row header align-items-center justify-content-between mb-4">
-        <div class="col-md-auto my-3 text-center">
-            <h1 class="m-2"><%= displayName %>'s Diary</h1>
+<% if (!exists) { %> 
+    <!-- User does not exist -->
+    <div class="user-not-found">
+        <h1>Oh no! :(</h1>
+        <p>The user could not be found.<p>
+    </div>
+<% } else { %>
+    <div class="container">
+        <!-- User exists -->
+        <div class="row header-row">
+            <div class="col-md-auto header-wrapper">
+                <h1 class="header"><%= displayName %>'s Diary</h1>
+            </div>
+            
+            <% if (currentUser && currentUser.username === user) { %>
+                <div class="col-md-auto header-wrapper">
+                    <button type="button" class="header-btn" data-toggle="modal" data-target="#new-rest">
+                        New restaurant
+                    </button>
+                </div>
+            <% } %>
+        </div>  
+
+        <!-- Grid for displaying image/link to restaurant -->
+        <div class="row">
+            <% restaurants.forEach(rest => { %>
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 rest-grid-col">
+                    <div class="rest-grid-item">
+                        <div class="rest-grid-wrapper">
+                            <a href="/diary/<%= user %>/restaurants/<%= rest.id %>">
+                                <div class="rest-grid-item-name"><%= rest.name %></div>
+                                <% if (rest.dishes.length != 0) { %>
+                                    <img src="<%= rest.dishes[0].image %>" class="rest-grid-item-img" alt="..."></img>
+                                <% } else { %>
+                                    <div class="rest-grid-item-noimg">No dishes!</div>
+                                <% } %>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
         </div>
-        
+
+        <!-- Modal to add new restaurant -->
         <% if (currentUser && currentUser.username === user) { %>
-            <div class="col-md-auto my-3 text-center">
-                <button type="button" class="restaurant-btn" data-toggle="modal" data-target="#newRestModal">
-                    New restaurant
-                </button>
+            <div class="modal fade" id="new-rest" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Add new restaurant</h5>
+                            <button type="button" class="close" data-dismiss="modal">
+                                <span>&times;</span>
+                            </button>
+                        </div>
+                        <form action="/diary/<%= user %>/restaurants" method="POST">
+                            <div class="modal-body">
+                                <div>Restaurant name:</div>
+                                <input type="text" name="name">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn modal-btn-close" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn modal-btn-action">Add</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         <% } %>
     </div>
-
-    <div class="row">
-        <% restaurants.forEach(rest => { %>
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 p-3 justify-content-center">
-                <div class="grid-item-wrapper">
-                    <div class="grid-restaurant">
-                        <a href="/diary/<%= user %>/restaurants/<%= rest.id %>">
-                            <% if (rest.dishes.length != 0) { %>
-                                <img src="<%= rest.dishes[0].image %>" class="restaurant-img" alt="..."></img>
-                            <% } else { %>
-                                <div class="restaurant-no-img">No dishes!</div>
-                            <% } %>
-                        </a>
-                        <div class="restaurant-name"><%= rest.name %></div>
-                    </div>
-                </div>
-            </div>
-        <% }) %>
-    </div>
-
-<% if (currentUser && currentUser.username === user) { %>
-    <div class="modal fade" id="newRestModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Add new restaurant</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="/diary/<%= user %>/restaurants" method="POST">
-                    <div class="modal-body">
-                        <div>Restaurant name:</div>
-                        <input type="text" name="name">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn modal-btn-close" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn modal-btn-action">Add</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-<% } %>
-
-
-</div>
+<% } %>            
 
 <% include ../partials/footer %>

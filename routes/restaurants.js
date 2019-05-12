@@ -21,7 +21,7 @@ router.post("/", middleware.checkDiaryOwnership, (req, res) => {
             console.log(err);
         } else {
             console.log(req.user.username + "/restaurants");
-            res.redirect("/diary/" + req.user.username + "/restaurants" + restaurant._id);
+            res.redirect("/diary/" + req.user.username + "/restaurants/" + restaurant._id);
         }
     })
 })
