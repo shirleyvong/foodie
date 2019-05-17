@@ -276,7 +276,7 @@ input, textarea {
   margin: 3em;
 }
 
-.user-not-found {
+.error-wrapper {
   text-align: center;
   padding: 2em;
 }

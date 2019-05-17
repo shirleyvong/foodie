@@ -16,6 +16,20 @@
     </head>
 
     <body class="home-body">
+        <!-- Flash messages -->
+        <div class="container">
+            <% if(error && error.length > 0) { %>
+                <div class="alert alert-danger" role="alert">
+                    <%= error %>
+                </div>
+            <% } %>
+             
+            <% if(success && success.length > 0) { %>
+                <div class="alert alert-success" role="alert">
+                    <%= success %>
+                </div>
+             <% } %> 
+        </div>
         <div class="home-container">
                 <div class="jumbotron">
                     <h1 class="display-4">Welcome to foodie.</h1>
@@ -26,6 +40,7 @@
                     </p>
                 </div>
         </div>
+
 
         <!-- Bootstrap -->
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

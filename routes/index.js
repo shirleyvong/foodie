@@ -3,7 +3,11 @@ const router = express.Router();
 const passport = require("passport");
 const User = require("../models/user");
 const Restaurant = require("../models/restaurant")
+var middleware = require("../middleware/index");
 
+function convertToLower(s) {
+    return s.toLowerCase();
+}
 
 // Display home page
 router.get("/", (req, res) => {
@@ -14,14 +18,12 @@ router.get("/", (req, res) => {
 router.get("/diary/:username", (req, res) => {
     let username = req.params.username.toLowerCase();
     User.findOne({username: username}, (err, foundUser) => {
-        if (err) {
-            console.log(err);
-        } else if (!foundUser) {
-            res.render("restaurants/diary", { exists: false });
+        if (err || ! foundUser) {
+            res.render("error");
         } else {
             Restaurant.find({"author.username": username}).populate("dishes").exec((err, restaurants) => {
                 if (err) {
-                    console.log(err);
+                    res.render("error");
                 } else {
                     res.render("restaurants/diary", {
                         exists: true, 
@@ -38,16 +40,18 @@ router.get("/diary/:username", (req, res) => {
 
 // Create new account
 router.post("/register", (req, res) => {
-    let newUser = new User({username: req.body.username.toLowerCase(), displayName: req.body.username});
+    let newUser = new User({username: req.body.username, displayName: req.body.username});
     User.register(newUser, req.body.password, (err, registeredUser) => {
         if (err) {
-            console.log(err);
             req.flash("error", err.message);
             return res.redirect("/register");
-        }
+        } 
+        console.log("New user created. " + registeredUser);
         // Successful registration
+        
         passport.authenticate("local")(req, res, () => {
-            req.flash("success", "Hey " + req.user.username + ", welcome to foodie :)");
+            console.log(req.user);
+            req.flash("success", "Hey " + req.user.displayName + ", welcome to foodie :)");
             res.redirect("/diary/" + req.user.username);
         });
     })
@@ -63,15 +67,23 @@ router.get("/register", (req, res) => {
 })
 
 // Login
-router.post("/login", (req, res) => {
+router.post("/login", middleware.usernameToLower, (req, res) => {
     passport.authenticate("local", (err, user, info) => {
-        if (err) { console.log(err); } 
-        // User does not exist 
+        if (err) { 
+            req.flash("error", "Unable to login, please try again.");
+            return res.redirect("/login");
+        }
+        
         if (!user) {
             req.flash("error", info.message);
             return res.redirect("/login");
         }
+
         req.logIn(user, (err) => {
+            if (err) { 
+                req.flash("error", "Unable to login, please try again.");
+                return res.redirect("/login");
+            }
             req.flash("success", "Successfully logged in.");
             res.redirect("/diary/" + req.user.username);
         })
@@ -87,7 +99,12 @@ router.get("/logout", (req, res) => {
 
 // Search for user
 router.get("/search", (req, res) => {
-    res.redirect("/diary/" + req.query.username);
+    let username = req.query.username.toLowerCase();
+    res.redirect("/diary/" + username);
 })
+
+router.use((req, res) => {
+    res.render("error")
+});
 
 module.exports = router;

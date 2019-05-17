@@ -60,6 +60,7 @@ middleware.checkRestaurantOwnership = (req, res, next) => {
     }    
 };
 
+// Check if user can make changes to a dish
 middleware.checkDishOwnership = (req, res, next) => {
     // Check if user is logged in
      if (req.isAuthenticated()) {
@@ -85,5 +86,10 @@ middleware.checkDishOwnership = (req, res, next) => {
         res.redirect("/login");
     }    
 };
+
+middleware.usernameToLower = (req, res, next) => {
+    req.body.username = req.body.username.toLowerCase();
+    next();
+}
 
 module.exports = middleware;

@@ -18,11 +18,11 @@ router.post("/", middleware.checkDiaryOwnership, (req, res) => {
 
     Restaurant.create(newRestaurant, (err, restaurant) => {
         if (err) {
-            console.log(err);
+            req.flash("error", "Unable to create restaurant.");
         } else {
-            console.log(req.user.username + "/restaurants");
-            res.redirect("/diary/" + req.user.username + "/restaurants/" + restaurant._id);
+            req.flash("success", "Created new restaurant.");
         }
+        res.redirect("/diary/" + req.user.username);
     })
 })
 
@@ -30,10 +30,11 @@ router.post("/", middleware.checkDiaryOwnership, (req, res) => {
 router.put("/:id", middleware.checkRestaurantOwnership, (req, res) => {
     Restaurant.findByIdAndUpdate(req.params.id, req.body.restaurant, (err, restaurant) => {
         if (err) {
-            console.log(err);
-        } else {
-            res.redirect("/diary/" + req.user.username + "/restaurants/" + req.params.id);
+            req.flash("error", "Unable to edit restaurant.");
+            return res.redirect("/diary/" + req.user.username);
         }
+        req.flash("success", "Sucessfully updated restaurant.");
+        res.redirect("/diary/" + req.user.username + "/restaurants/" + req.params.id);
     })
 })
 
@@ -41,10 +42,11 @@ router.put("/:id", middleware.checkRestaurantOwnership, (req, res) => {
 router.delete("/:id", middleware.checkRestaurantOwnership, (req, res) => {
     Restaurant.findByIdAndDelete(req.params.id, (err) => {
         if (err) {
-            console.log(err);
-        } else {
-            res.redirect("/diary/" + req.user.username);
+            req.flash("error", "Unable to delete restaurant.");
+            return res.redirect("/diary/" + req.user.username);
         }
+        req.flash("success", "Sucessfully deleted restaurant.");    
+        res.redirect("/diary/" + req.user.username);
     })
 })
 
@@ -52,10 +54,10 @@ router.delete("/:id", middleware.checkRestaurantOwnership, (req, res) => {
 router.get("/:id", (req, res) => {
     Restaurant.findById(req.params.id).populate("dishes").exec((err, restaurant) => {
         if (err) {
-            console.log(err);
-        } else {
-            res.render("restaurants/show", {restaurant: restaurant, user: req.params.username, currentUser: req.user});
-        }
+            req.flash("error", "Unable to find restaurant");
+            return res.redirect("/diary/" + req.params.username);
+        } 
+        res.render("restaurants/show", {restaurant: restaurant, user: req.params.username, currentUser: req.user});
     })
 });
 

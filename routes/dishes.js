@@ -8,11 +8,13 @@ var middleware = require("../middleware/index");
 router.get("/:dishId", (req, res) => {
     Restaurant.findById(req.params.id, (err, restaurant) => {
         if (err) {
-            console.log(err);
+            req.flash("error", "Unable to find restaurant");
+            return res.redirect("/diary/" + req.params.username);
         } else {
             Dish.findById(req.params.dishId, (err, dish) => {
                 if (err) {
-                    console.log(err);
+                    req.flash("error", "Unable to find dish");
+                    return res.redirect("/diary/" + req.params.username + "/restaurants/" + restaurant._id);
                 } else {
                     res.render("dishes/show", {dish: dish, restaurant: restaurant, user: req.params.username, currentUser: req.user});
                 }
@@ -25,10 +27,11 @@ router.get("/:dishId", (req, res) => {
 router.put("/:dishId", middleware.checkDiaryOwnership, (req, res) => {    
     Dish.findByIdAndUpdate(req.params.dishId, req.body.dish, (err, dish) => {
         if (err) {
-            console.log(err);
+            req.flash("error", "Unable to update dish.");;
         } else {
-            res.redirect("/diary/" + req.user.username + "/restaurants/" + req.params.id + "/dishes/" + dish._id);
+            req.flash("success", "Successfully updated dish.");
         }
+        res.redirect("/diary/" + req.user.username + "/restaurants/" + req.params.id + "/dishes/" + dish._id);
     });
 })
 
@@ -36,8 +39,10 @@ router.put("/:dishId", middleware.checkDiaryOwnership, (req, res) => {
 router.delete("/:dishId", middleware.checkDiaryOwnership, (req, res) => {
     Dish.findByIdAndDelete(req.params.dishId, (err) => {
         if (err) {
-            console.log(err);
+            req.flash("error", "Unable to delete dish.");
+            res.redirect("/diary/" + req.user.username + "/restaurants/" + req.params.id);
         } else {
+            req.flash("success", "Successfully deleted dish.");
             res.redirect("/diary/" + req.user.username + "/restaurants/" + req.params.id);
         }
     })  
@@ -60,17 +65,18 @@ router.post("/", middleware.checkDiaryOwnership, (req, res) => {
 
     Restaurant.findById(req.params.id, (err, rest) => {
         if (err) {
-            console.log(err);
+            req.flash("error", "Unable to find restaurant");
+            return res.redirect("/diary/" + req.params.username);
         } else {
             Dish.create(newDish, (err, dish) => {
                 if (err) {
-                    console.log(err);
-                } else { 
-                    console.log(rest);
+                    req.flash("error", "Unable to create dish.");
+                } else {
                     rest.dishes.push(dish);
                     rest.save();
-                    res.redirect("/diary/" + req.user.username + "/restaurants/" + req.params.id);
+                    req.flash("success", "Successfully created new dish"); 
                 }
+                res.redirect("/diary/" + req.user.username + "/restaurants/" + req.params.id);
             })
         }
     })
