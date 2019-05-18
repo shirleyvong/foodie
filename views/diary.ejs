@@ -1,0 +1,75 @@
+<% include ./partials/header %>
+
+<% if (!exists) { %> 
+    <!-- User does not exist -->
+    <div class="error-wrapper">
+        <h1>Oh no! :(</h1>
+        <p>The user could not be found.</p>
+    </div>
+<% } else { %>
+    <div class="container">
+        <!-- User exists -->
+        <div class="row header-row">
+            <div class="col-md-auto header-wrapper">
+                <h1 class="header"><%= displayName %>'s Diary</h1>
+            </div>
+            
+            <% if (currentUser && currentUser.username === user) { %>
+                <div class="col-md-auto header-wrapper">
+                    <button type="button" class="header-btn" data-toggle="modal" data-target="#new-rest">
+                        New restaurant
+                    </button>
+                </div>
+            <% } %>
+        </div>  
+
+        <!-- Grid for displaying image/link to restaurant -->
+        <div class="row">
+            <% restaurants.forEach(rest => { %>
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 rest-grid-col">
+                    <div class="rest-grid-item">
+                        <div class="rest-grid-wrapper">
+                            <a href="/diary/<%= user %>/restaurants/<%= rest.id %>">
+                                <div class="rest-grid-item-name"><%= rest.name %></div>
+                                <% if (rest.dishes.length != 0) { %>
+                                    <img src="<%= rest.dishes[0].image %>" class="rest-grid-item-img" alt="..."></img>
+                                <% } else { %>
+                                    <div class="rest-grid-item-noimg">No dishes!</div>
+                                <% } %>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+
+        <!-- Modal to add new restaurant -->
+        <% if (currentUser && currentUser.username === user) { %>
+            <div class="modal fade" id="new-rest" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Add new restaurant</h5>
+                            <button type="button" class="close" data-dismiss="modal">
+                                <span>&times;</span>
+                            </button>
+                        </div>
+                        <form id="new-rest-form" action="/diary/<%= user %>/restaurants" method="POST">
+                            <div class="modal-body">
+                                <div>Restaurant name:</div>
+                                <input id="new-rest-name" type="text" name="name" required>
+                            </div>
+                            <p class="missing-input-msg"></p>
+                            <div class="modal-footer">
+                                <button type="button" class="btn modal-btn-close" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn modal-btn-action">Add</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+    </div>
+<% } %>            
+
+<% include ./partials/footer %>
