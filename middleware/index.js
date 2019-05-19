@@ -7,84 +7,56 @@ var middleware = {};
 // Check if user is logged in
 middleware.isLoggedIn = (req, res, next) => {
     if (req.isAuthenticated()) {
-        next();
+        return next();
     }
     // User is not logged in
     req.flash("error", "You must login to be able to do this.");
-    res.redirect("/login");
+    res.redirect("back");
 }
 
 // Check if user can make changes to diary
 middleware.checkDiaryOwnership = (req, res, next) => {
-    // Check if user is logged in
-    if (req.isAuthenticated()) {
-        if (req.params.username == req.user.username) {
-            req.flash("success", "Changes succcessfully made.");
-            next();
-        } else {
-            // User is not author
-            req.flash("error", "You do not have permission to do this.");
-            res.redirect("back");
-        }
-    } else {
-        // User is not logged in
-        req.flash("error", "You must login to be able to do this.");
-        res.redirect("/login")
-    }
+    if (req.params.username == req.user.username) {
+        return next();
+    } 
+    // User is not author
+    req.flash("error", "You do not have permission to do this.");
+    return res.redirect("back");
 }
 
 // Check if user can make changes to restaurant
 middleware.checkRestaurantOwnership = (req, res, next) => {
-    // Check if user is logged in
-     if (req.isAuthenticated()) {
-        Restaurant.findById(req.params.id, (err, foundRest) => {
-            if (err) {
-                req.flash("error", err.message);
-                res.redirect("back");
-            } else {
-                // Check that user is the author
-                if (foundRest.author.id.equals(req.user._id)) {
-                    req.flash("Changes successfully made.");
-                    next();
-                } else {
-                    // User is not author
-                    req.flash("error", "You do not have permission to do this.");
-                    res.redirect("back");
-                }
-            }
-        });
-    } else {
-        // User is not logged in
-        req.flash("error", "You must login to be able to do this.");
-        res.redirect("/login");
-    }    
+    Restaurant.findById(req.params.id, (err, foundRest) => {
+        if (err) {
+            req.flash("error", "An unexpected error occured, please try again.");
+            return res.redirect("back");
+        } 
+        
+        if (foundRest.author.id.equals(req.user._id)) {
+            return next();
+        } 
+        // User is not the author
+        req.flash("error", "You do not have permission to do this.");
+        return res.redirect("back");
+    }); 
 };
 
 // Check if user can make changes to a dish
 middleware.checkDishOwnership = (req, res, next) => {
-    // Check if user is logged in
-     if (req.isAuthenticated()) {
-        Dish.findById(req.params.id, (err, foundDish) => {
-            if (err) {
-                req.flash("error", err.message);
-                res.redirect("back");
-            } else {
-                // Check that user is the author
-                if (foundDish.author.id.equals(req.user._id)) {
-                    req.flash("Changes successfully made.");
-                    next();
-                } else {
-                    // User is not author
-                    req.flash("error", "You do not have permission to do this.");
-                    res.redirect("back");
-                }
-            }
-        });
-    } else {
-        // User is not logged in
-        req.flash("error", "You must login to be able to do this.");
-        res.redirect("/login");
-    }    
+    Dish.findById(req.params.id, (err, foundDish) => {
+        if (err) {
+            req.flash("error", "An unexpected error occured, please try again.");
+            return res.redirect("back");
+        }
+
+        // Check that user is the author
+        if (foundDish.author.id.equals(req.user._id)) {
+            return next();
+        }
+        // User is not author
+        req.flash("error", "You do not have permission to do this.");
+        return res.redirect("back");
+    });
 };
 
 middleware.usernameToLower = (req, res, next) => {

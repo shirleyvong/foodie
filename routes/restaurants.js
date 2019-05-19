@@ -1,11 +1,11 @@
-var express = require("express");
-var router = express.Router({mergeParams: true});
-var Restaurant = require("../models/restaurant");
-var User = require("../models/user")
+const express = require("express");
+const router = express.Router({mergeParams: true});
+const Restaurant = require("../models/restaurant");
+const User = require("../models/user")
 const middleware = require("../middleware/index")
 
 // Route to create a new restaurant
-router.post("/", middleware.checkDiaryOwnership, (req, res) => {
+router.post("/", middleware.isLoggedIn, middleware.checkDiaryOwnership, (req, res) => {
     const author = {
         id: req.user._id,
         username: req.user.username
@@ -18,7 +18,7 @@ router.post("/", middleware.checkDiaryOwnership, (req, res) => {
 
     Restaurant.create(newRestaurant, (err, restaurant) => {
         if (err) {
-            req.flash("error", "Unable to create restaurant.");
+            req.flash("error", "Unable to create restaurant, please try again.");
         } else {
             req.flash("success", "Created new restaurant.");
         }
@@ -27,25 +27,25 @@ router.post("/", middleware.checkDiaryOwnership, (req, res) => {
 })
 
 // Route to edit and update restaurant
-router.put("/:id", middleware.checkRestaurantOwnership, (req, res) => {
+router.put("/:id", middleware.isLoggedIn, middleware.checkRestaurantOwnership, (req, res) => {
     Restaurant.findByIdAndUpdate(req.params.id, req.body.restaurant, (err, restaurant) => {
         if (err) {
-            req.flash("error", "Unable to edit restaurant.");
-            return res.redirect("/diary/" + req.user.username);
+            req.flash("error", "Unable to edit restaurant, please try again.");
+        } else {
+            req.flash("success", "Sucessfully updated restaurant.");
         }
-        req.flash("success", "Sucessfully updated restaurant.");
         res.redirect("/diary/" + req.user.username + "/restaurants/" + req.params.id);
     })
 })
 
 // Route to delete a restaurant
-router.delete("/:id", middleware.checkRestaurantOwnership, (req, res) => {
+router.delete("/:id", middleware.isLoggedIn, middleware.checkRestaurantOwnership, (req, res) => {
     Restaurant.findByIdAndDelete(req.params.id, (err) => {
         if (err) {
-            req.flash("error", "Unable to delete restaurant.");
-            return res.redirect("/diary/" + req.user.username);
+            req.flash("error", "Unable to delete restaurant, please try again.");
+        } else {
+            req.flash("success", "Sucessfully deleted restaurant.");    
         }
-        req.flash("success", "Sucessfully deleted restaurant.");    
         res.redirect("/diary/" + req.user.username);
     })
 })
@@ -57,7 +57,7 @@ router.get("/:id", (req, res) => {
             req.flash("error", "Unable to find restaurant");
             return res.redirect("/diary/" + req.params.username);
         } 
-        res.render("restaurants/show", {restaurant: restaurant, user: req.params.username, currentUser: req.user});
+        res.render("restaurant", {restaurant: restaurant, user: req.params.username, currentUser: req.user});
     })
 });
 

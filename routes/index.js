@@ -3,14 +3,13 @@ const router = express.Router();
 const passport = require("passport");
 const User = require("../models/user");
 const Restaurant = require("../models/restaurant")
-var middleware = require("../middleware/index");
+const middleware = require("../middleware/index");
 
-function convertToLower(s) {
-    return s.toLowerCase();
-}
-
-// Display home page
+// Display home page if not logged in, otherwise redirect to user's diary
 router.get("/", (req, res) => {
+    if (req.user) {
+        return res.redirect("/diary/" + req.user.username);
+    }
     res.render("home");
 })
 
@@ -19,22 +18,21 @@ router.get("/diary/:username", (req, res) => {
     let username = req.params.username.toLowerCase();
     User.findOne({username: username}, (err, foundUser) => {
         if (err || ! foundUser) {
-            res.render("error");
-        } else {
-            Restaurant.find({"author.username": username}).populate("dishes").exec((err, restaurants) => {
-                if (err) {
-                    res.render("error");
-                } else {
-                    res.render("restaurants/diary", {
-                        exists: true, 
-                        restaurants: restaurants, 
-                        user: username, 
-                        currentUser: req.user, 
-                        displayName: foundUser.displayName
-                    });
-                }
-            })
+            return res.render("error");
         }
+
+        Restaurant.find({"author.username": username}).populate("dishes").exec((err, restaurants) => {
+            if (err) {
+                return res.render("error");
+            } 
+            res.render("diary", {
+                exists: true, 
+                restaurants: restaurants, 
+                user: username, 
+                currentUser: req.user, 
+                displayName: foundUser.displayName
+            });
+        })
     })
 });
 
@@ -46,11 +44,10 @@ router.post("/register", (req, res) => {
             req.flash("error", err.message);
             return res.redirect("/register");
         } 
+        
         console.log("New user created. " + registeredUser);
-        // Successful registration
         
         passport.authenticate("local")(req, res, () => {
-            console.log(req.user);
             req.flash("success", "Hey " + req.user.displayName + ", welcome to foodie :)");
             res.redirect("/diary/" + req.user.username);
         });
@@ -70,7 +67,7 @@ router.get("/register", (req, res) => {
 router.post("/login", middleware.usernameToLower, (req, res) => {
     passport.authenticate("local", (err, user, info) => {
         if (err) { 
-            req.flash("error", "Unable to login, please try again.");
+            req.flash("error", "An unexpected error occured, please try again.");
             return res.redirect("/login");
         }
         
@@ -81,10 +78,9 @@ router.post("/login", middleware.usernameToLower, (req, res) => {
 
         req.logIn(user, (err) => {
             if (err) { 
-                req.flash("error", "Unable to login, please try again.");
+                req.flash("error", "An unexpected error occured, please try again.");
                 return res.redirect("/login");
             }
-            req.flash("success", "Successfully logged in.");
             res.redirect("/diary/" + req.user.username);
         })
     })(req, res);
@@ -93,7 +89,6 @@ router.post("/login", middleware.usernameToLower, (req, res) => {
 // Logout
 router.get("/logout", (req, res) => {
     req.logout();
-    req.flash("success", "Successfully logged out.");
     res.redirect("/");
 });
 
@@ -103,6 +98,7 @@ router.get("/search", (req, res) => {
     res.redirect("/diary/" + username);
 })
 
+// Route for invalid URL path
 router.use((req, res) => {
     res.render("error")
 });
