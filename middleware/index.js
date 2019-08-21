@@ -1,10 +1,8 @@
-const User = require("../models/user");
 const Restaurant = require("../models/restaurant");
 const Dish = require("../models/dish");
 
 var middleware = {};
 
-// Check if user is logged in
 middleware.isLoggedIn = (req, res, next) => {
     if (req.isAuthenticated()) {
         return next();
@@ -14,7 +12,6 @@ middleware.isLoggedIn = (req, res, next) => {
     res.redirect("back");
 }
 
-// Check if user can make changes to diary
 middleware.checkDiaryOwnership = (req, res, next) => {
     if (req.params.username == req.user.username) {
         return next();
@@ -24,7 +21,6 @@ middleware.checkDiaryOwnership = (req, res, next) => {
     return res.redirect("back");
 }
 
-// Check if user can make changes to restaurant
 middleware.checkRestaurantOwnership = (req, res, next) => {
     Restaurant.findById(req.params.id, (err, foundRest) => {
         if (err) {
@@ -41,7 +37,6 @@ middleware.checkRestaurantOwnership = (req, res, next) => {
     }); 
 };
 
-// Check if user can make changes to a dish
 middleware.checkDishOwnership = (req, res, next) => {
     Dish.findById(req.params.id, (err, foundDish) => {
         if (err) {
