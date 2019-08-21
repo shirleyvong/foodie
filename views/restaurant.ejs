@@ -43,82 +43,14 @@
 </div>
 
 <% if (currentUser && currentUser.username === user) { %>
-   <!-- Modal to add new dish  -->
-   <div class="modal fade" id="new-dish" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Add new dish</h5>
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span>&times;</span>
-                    </button>
-                </div>
-                <form action="/diary/<%= user %>/restaurants/<%= restaurant._id %>/dishes" method="post">
-                    <div class="modal-body">                            
-                        <div>Name:</div>
-                        <input id="name" type="text" name="name" required><br>
-                        <div>Image URL:</div>
-                        <input type="url" name="image" required><br>
-                        <div>Price:</div>
-                        <input type="number" name="price" min="0.01" step="0.01" required><br>    
-                        <div>Comment:</div>
-                        <textarea type="text" name="comment" rows="10" required></textarea><br>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn modal-btn-close" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn modal-btn-action">Add</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+    <!-- Modal to add new dish  -->
+    <% include ./newDish %>
     
     <!-- Modal to edit restaurant -->
-    <div class="modal fade" id="edit-dish" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Edit restaurant</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span>&times;</span>
-                    </button>
-                </div>
-                <form action="/diary/<%= user %>/restaurants/<%= restaurant._id %>?_method=PUT" method="POST">
-                    <div class="modal-body">
-                        <div>Restaurant name:</div>
-                        <input type="text" name="restaurant[name]" value="<%= restaurant.name %>" required>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn modal-btn-close" data-dismiss="modal">Close</button>
-                        <button type="update" class="btn modal-btn-action">Save</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    
+    <% include ./editRestaurant %>
+
     <!-- Modal to delete restaurant -->
-    <div class="modal fade" id="delete-dish" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Delete restaurant</h5>
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span>&times;</span>
-                    </button>
-                </div>
-                <form action="/diary/<%= user %>/restaurants/<%= restaurant._id %>/?_method=DELETE" method="POST">
-                    <div class="modal-body">
-                        Are you sure you would like to delete this restaurant?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn modal-btn-close" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn modal-btn-action">Delete</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+    <% include ./deleteRestaurant %>
 <% } %>
 
 <% include ./partials/footer %>

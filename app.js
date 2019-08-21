@@ -1,33 +1,32 @@
 const express = require("express");
-const app = express();
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const flash = require("connect-flash");
+const app = express();
+
 const User = require("./models/user.js");
 
-// Routes
 const restaurantRoutes = require("./routes/restaurants.js");
 const dishRoutes = require("./routes/dishes.js");
 const indexRoutes = require("./routes/index.js")
 
 app.use(flash());
-
 app.use(methodOverride("_method"));
 app.use(bodyParser.urlencoded({extended: true}));
-mongoose.connect("mongodb://localhost:27017/testdb")
+mongoose.connect("mongodb://localhost:27017/testdb", {useNewUrlParser: true});
 
 // Configure view engine to render ejs templates
-app.use(express.static('public'));   // style sheets are located in public
+app.use(express.static('public'));
 app.set("view engine", "ejs");
 
 // Passport config
 app.use(require("express-session")({
     secret: "this is the secret",
     resave: false,
-    saveUnitialized: false
+    saveUninitialized: false
 }));
 app.use(passport.initialize());
 app.use(passport.session());

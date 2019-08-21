@@ -1,0 +1,21 @@
+<div class="modal fade" id="delete-dish" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Delete</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                <span>&times;</span>
+                </button>
+            </div>
+            <form action="/diary/<%= user %>/restaurants/<%= restaurant._id %>/dishes/<%= dish._id %>?_method=DELETE" method="POST">
+                <div class="modal-body">
+                    Are you sure you would like to delete this dish?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn modal-btn-close" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn modal-btn-action">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -58,57 +58,11 @@
 
     <% if (currentUser && currentUser.username === user) { %>
         <!-- Modal to edit dish -->
-        <div class="modal fade" id="edit-dish" tabindex="-1" role="dialog">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Edit</h5>
-                        <button type="button" class="close" data-dismiss="modal">
-                        <span>&times;</span>
-                        </button>
-                    </div>
-                    <form action="/diary/<%= user %>/restaurants/<%= restaurant._id %>/dishes/<%= dish._id %>?_method=PUT" method="POST">
-                        <div class="modal-body">
-                            <div>Name:</div>
-                            <input type="text" name="dish[name]" value="<%= dish.name %>" required><br>
-                            <div>Image:</div>
-                            <input type="url" name="dish[image]" value="<%= dish.image %>" required><br>
-                            <div>Price:</div>
-                            <input type="number" name="dish[price]" min="0.01" step="0.01" value="<%= dish.price %>" required><br>    
-                            <div>Comment:</div>
-                            <textarea name="dish[comment]" maxlength="240" cols="40" rows="6" required><%= dish.comment %></textarea><br>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn modal-btn-close" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn modal-btn-action">Save changes</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+        <% include ./editDish %>
 
         <!-- Modal to delete dish -->
-        <div class="modal fade" id="delete-dish" tabindex="-1" role="dialog">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Delete</h5>
-                        <button type="button" class="close" data-dismiss="modal">
-                        <span>&times;</span>
-                        </button>
-                    </div>
-                    <form action="/diary/<%= user %>/restaurants/<%= restaurant._id %>/dishes/<%= dish._id %>?_method=DELETE" method="POST">
-                        <div class="modal-body">
-                            Are you sure you would like to delete this dish?
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn modal-btn-close" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn modal-btn-action">Delete</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+        <% include ./deleteDish %>
+
     <% } %>
 </div>
 

@@ -1,0 +1,23 @@
+<div class="modal fade" id="edit-dish" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit restaurant</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <form action="/diary/<%= user %>/restaurants/<%= restaurant._id %>?_method=PUT" method="POST">
+                <div class="modal-body">
+                    <div>Restaurant name:</div>
+                    <input type="text" name="restaurant[name]" value="<%= restaurant.name %>" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn modal-btn-close" data-dismiss="modal">Close</button>
+                    <button type="update" class="btn modal-btn-action">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+    
