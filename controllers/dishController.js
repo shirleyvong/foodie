@@ -5,15 +5,25 @@ const isImageUrl = require('is-image-url');
 exports.dishDetail = (req, res) => {
     Restaurant.findById(req.params.id, (err, restaurant) => {
         if (err) {
-            req.flash("error", "Unable to find restaurant");
+            req.flash("Unable to load restaurant, please try again later")
+            res.sendStatus(503);
+        }
+        if (!restaurant) {
+            req.flash("error", "Restaurant does not exist");
+            res.sendStatus(404);
             return res.redirect("/diary/" + req.params.username);
         }
         
         Dish.findById(req.params.dishId, (err, dish) => {
             if (err) {
-                req.flash("error", "Unable to find dish");
+                req.flash("error", "Unable to find dish, please try again later");
+                res.sendStatus(503);
                 return res.redirect("/diary/" + req.params.username + "/restaurants/" + restaurant._id);
-            } 
+            }
+            if (!dish) {
+                req.flash("error", "Dish does not exist");
+                res.sendStatus(404);
+            }
             res.render("dish", {dish: dish, restaurant: restaurant, user: req.params.username, currentUser: req.user});
         })
     })
@@ -23,7 +33,7 @@ exports.dishEdit = (req, res) => {
     let img = req.body.image;
     if (!isImageUrl(img)) {
         img = "http://www.makemoneywhilstsleeping.com/wp-content/uploads/2017/02/sad-face.jpeg";
-        req.flash("error", "You entered an invalid image url, so it has been replaced.");
+        req.flash("error", "You entered an invalid image url, so it has been replaced");
     }
 
     const updatedDish = {
@@ -35,7 +45,11 @@ exports.dishEdit = (req, res) => {
     
     Dish.findByIdAndUpdate(req.params.dishId, updatedDish, (err, dish) => {
         if (err) {
-            req.flash("error", "Unable to update dish, please try again.");
+            req.flash("error", "Unable to update dish, please try again");
+            res.sendStatus(503);
+        } else if (!dish) {
+            req.flash("error", "Dish to update does not exist");
+            res.sendStatus(404);
         } else {
             req.flash("success", "Successfully updated dish.");
         }
@@ -47,6 +61,7 @@ exports.dishDelete = (req, res) => {
     Dish.findByIdAndDelete(req.params.dishId, (err) => {
         if (err) {
             req.flash("error", "Unable to delete dish, please try again.");
+            res.sendStatus(503);
         } else {
             req.flash("success", "Successfully deleted dish.");
         }
@@ -58,7 +73,8 @@ exports.dishDelete = (req, res) => {
 exports.dishCreate = (req, res) => {
     Restaurant.findById(req.params.id, (err, rest) => {
         if (err) {
-            req.flash("error", "Unable to find restaurant");
+            req.flash("error", "Unable to find restaurant, please try again later");
+            res.sendStatus(503);
             return res.redirect("/diary/" + req.params.username);
         } 
 
@@ -82,7 +98,8 @@ exports.dishCreate = (req, res) => {
 
         Dish.create(newDish, (err, dish) => {
             if (err) {
-                req.flash("error", "Unable to create dish.");
+                req.flash("error", "Unable to create dish, please try again later.");
+                res.sendStatus(503);
             } else {
                 rest.dishes.push(dish);
                 rest.save();

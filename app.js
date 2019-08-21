@@ -46,4 +46,16 @@ app.use("/diary/:username/restaurants", restaurantRoutes);
 app.use("/diary/:username/restaurants/:id/dishes/", dishRoutes);
 app.use("/", indexRoutes)
 
+app.use((req, res) => {
+    let err = new Error("Page not found");
+    err.statusCode = 404;
+    next(err);
+});
+
+// Error handler
+app.use((err, req, res, next) => {
+    if (!err.statusCode) { err.statusCode = 500; }
+    res.status(err.statusCode).render('error');
+});
+
 module.exports = app;
