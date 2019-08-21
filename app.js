@@ -45,7 +45,7 @@ app.use("/diary/:username/restaurants", restaurantRoutes);
 app.use("/diary/:username/restaurants/:id/dishes/", dishRoutes);
 app.use("/", indexRoutes)
 
-app.use((req, res) => {
+app.use((req, res, next) => {
     let err = new Error("Page not found");
     err.statusCode = 404;
     next(err);

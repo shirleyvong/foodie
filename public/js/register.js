@@ -2,7 +2,7 @@
 const username = document.getElementById("reg-username");
 const password = document.getElementById("reg-password");
 const confirm = document.getElementById("reg-confirm-password");
-const registerForm = document.getElementById("reg-form");
+const registerForm = document.getElementById("register-form");
 const msg = document.getElementsByClassName("missing-input-msg")[0];
 
 function validate() {

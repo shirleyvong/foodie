@@ -17,7 +17,7 @@ exports.register = (req, res) => {
             return res.redirect("/register");
         } 
         
-        console.log("New user created. " + registeredUser);
+        console.log("New user created " + registeredUser);
         
         passport.authenticate("local")(req, res, () => {
             req.flash("success", "Hey " + req.user.displayName + ", welcome to foodie :)");
@@ -29,8 +29,8 @@ exports.register = (req, res) => {
 exports.login = (req, res) => {
     passport.authenticate("local", (err, user, info) => {
         if (err) { 
-            req.flash("error", "An unexpected error occured, please try again.");
-            return res.redirect("/login");
+            res.status(503);
+            return res.render("error", {msg: "An unexpected error occured, please try again later"});
         }
         
         if (!user) {
@@ -40,9 +40,10 @@ exports.login = (req, res) => {
 
         req.logIn(user, (err) => {
             if (err) { 
-                req.flash("error", "An unexpected error occured, please try again.");
-                return res.redirect("/login");
+                res.status(503);
+                return res.render("error", {msg: "An unexpected error occured, please try again later"});
             }
+            
             res.redirect("/diary/" + req.user.username);
         })
     })(req, res);

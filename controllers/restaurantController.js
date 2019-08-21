@@ -13,11 +13,11 @@ exports.restaurantCreate = (req, res) => {
 
     Restaurant.create(newRestaurant, (err, restaurant) => {
         if (err) {
-            req.flash("error", "Unable to create restaurant, please try again later");
-            res.setStatus(503);
-        } else {
-            req.flash("success", "Created new restaurant");
+            res.status(503);
+            return res.render("error", {msg: "An unexpected error occured, please try again later."});            
         }
+            
+        req.flash("success", "Created new restaurant");
         res.redirect("/diary/" + req.user.username);
     })
 }
@@ -25,14 +25,16 @@ exports.restaurantCreate = (req, res) => {
 exports.restaurantEdit = (req, res) => {
     Restaurant.findByIdAndUpdate(req.params.id, req.body.restaurant, (err, restaurant) => {
         if (err) {
-            req.flash("error", "Unable to edit restaurant, please try again later");
-            res.setStatus(503);
-        } else if (!restaurant) {
-            req.flash("error", "Restaurant to edit does not exist");
-            res.setStatus(404);
-        } else {
-            req.flash("success", "Sucessfully updated restaurant");
-        }
+            res.status(503);
+            return res.render("error", {msg: "An unexpected error occured, please try again later."})
+        } 
+        
+        if (!restaurant) {
+            res.status(404);
+            return res.render("error", {msg: "The restaurant you are trying to update does not exist."})
+        } 
+
+        req.flash("success", "Sucessfully updated restaurant");
         res.redirect("/diary/" + req.user.username + "/restaurants/" + req.params.id);
     })
 }
@@ -40,11 +42,11 @@ exports.restaurantEdit = (req, res) => {
 exports.restaurantDelete = (req, res) => {
     Restaurant.findByIdAndDelete(req.params.id, (err) => {
         if (err) {
-            req.flash("error", "Unable to delete restaurant, please try again.");
-            res.setStatus(503);
-        } else {
-            req.flash("success", "Sucessfully deleted restaurant.");    
-        }
+            res.status(503);
+            return res.render("error", {msg: "An unexpected error occured, please try again later."})
+        } 
+
+        req.flash("success", "Sucessfully deleted restaurant.");    
         res.redirect("/diary/" + req.user.username);
     })
 }
@@ -52,15 +54,15 @@ exports.restaurantDelete = (req, res) => {
 exports.restaurantDetail = (req, res) => {
     Restaurant.findById(req.params.id).populate("dishes").exec((err, restaurant) => {
         if (err) {
-            req.flash("error", "Unable to load restaurant, please try again later");
-            res.setStatus(503);
-            return res.redirect("/diary/" + req.params.username);
+            res.status(503);
+            return res.render("error", {msg: "An unexpected error occured, please try again later."})
         } 
+
         if (!restaurant) {
-            req.flash("error", "Restaurant does not exist");
-            res.setStatus(404);
-            return res.redirect("/diary/" + req.params.username);
+            res.status(404);
+            return res.render("error", {msg: "The restaurant you are trying to update deos not exist."})
         }
+        
         res.render("restaurant", {restaurant: restaurant, user: req.params.username, currentUser: req.user});
     })
 };

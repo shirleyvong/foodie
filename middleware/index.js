@@ -1,47 +1,47 @@
 const Restaurant = require("../models/restaurant");
 const Dish = require("../models/dish");
 
-var middleware = {};
-
-middleware.isLoggedIn = (req, res, next) => {
+exports.isLoggedIn = (req, res, next) => {
     if (req.isAuthenticated()) {
         return next();
     }
     // User is not logged in
-    req.flash("error", "You must login to be able to do this.");
-    res.redirect("back");
+    res.status(401);
+    return res.render("error", {msg: "You must login to be able to do this."});
+
 }
 
-middleware.checkDiaryOwnership = (req, res, next) => {
+exports.checkDiaryOwnership = (req, res, next) => {
     if (req.params.username == req.user.username) {
         return next();
     } 
     // User is not author
-    req.flash("error", "You do not have permission to do this.");
-    return res.redirect("back");
+    res.status(403);
+    return res.render("error", {msg: "You do not have permission to do this"});
 }
 
-middleware.checkRestaurantOwnership = (req, res, next) => {
+exports.checkRestaurantOwnership = (req, res, next) => {
     Restaurant.findById(req.params.id, (err, foundRest) => {
         if (err) {
-            req.flash("error", "An unexpected error occured, please try again.");
-            return res.redirect("back");
-        } 
+            res.status(503);
+            return res.render("error", {msg: "An unexpected error occured, please try again"});
+        }
         
         if (foundRest.author.id.equals(req.user._id)) {
             return next();
         } 
         // User is not the author
-        req.flash("error", "You do not have permission to do this.");
-        return res.redirect("back");
+        res.sendStatus(403);
+        return res.render("error", {msg: "You do not have permission to do this"});
+        
     }); 
 };
 
-middleware.checkDishOwnership = (req, res, next) => {
+exports.checkDishOwnership = (req, res, next) => {
     Dish.findById(req.params.id, (err, foundDish) => {
         if (err) {
-            req.flash("error", "An unexpected error occured, please try again.");
-            return res.redirect("back");
+            res.status(503);
+            return res.render("error", {msg: "An unexpected error occured, please try again"});
         }
 
         // Check that user is the author
@@ -49,14 +49,12 @@ middleware.checkDishOwnership = (req, res, next) => {
             return next();
         }
         // User is not author
-        req.flash("error", "You do not have permission to do this.");
-        return res.redirect("back");
+        res.status(403);
+        return res.render("error", {msg: "You do not have permission to do this"});
     });
 };
 
-middleware.usernameToLower = (req, res, next) => {
+exports.usernameToLower = (req, res, next) => {
     req.body.username = req.body.username.toLowerCase();
     next();
 }
-
-module.exports = middleware;
