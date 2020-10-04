@@ -58,3 +58,21 @@ exports.usernameToLower = (req, res, next) => {
     req.body.username = req.body.username.toLowerCase();
     next();
 }
+
+exports.unknownEndpoint = (req, res, next) => {
+    const err = new Error('Page not found');
+    err.statusCode = 404;
+    next(err);
+};
+
+exports.errorHandler = (err, req, res, next) => {
+    if (!err.statusCode) { err.statusCode = 500; }
+    res.status(err.statusCode).render('error');
+};
+
+exports.setResLocals = (req, res, next) => {
+    res.locals.currentUser = req.user;
+    res.locals.error = req.flash('error');
+    res.locals.success = req.flash('success');
+    next();
+};
