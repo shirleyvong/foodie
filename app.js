@@ -1,3 +1,4 @@
+const config = require('./config');
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
@@ -16,7 +17,8 @@ const indexRoutes = require("./routes/index.js")
 app.use(flash());
 app.use(methodOverride("_method"));
 app.use(bodyParser.urlencoded({extended: true}));
-mongoose.connect("mongodb://localhost:27017/testdb", {useNewUrlParser: true});
+
+mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true });
 
 // Configure view engine to render ejs templates
 app.use(express.static('public'));
