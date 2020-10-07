@@ -1,5 +1,5 @@
-const Restaurant = require('../models/restaurant');
-const Dish = require('../models/dish');
+const Diary = require('../models/diary');
+const Post = require('../models/post');
 
 exports.isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {
@@ -19,31 +19,31 @@ exports.checkDiaryOwnership = (req, res, next) => {
   return res.render('error', { msg: 'You do not have permission to do this' });
 };
 
-exports.checkRestaurantOwnership = (req, res, next) => {
-  Restaurant.findById(req.params.id, (err, foundRest) => {
-    if (err) {
-      res.status(503);
-      return res.render('error', { msg: 'An unexpected error occured, please try again' });
-    }
+// exports.checkDiaryOwnership = (req, res, next) => {
+//   Diary.findById(req.params.id, (err, foundDiary) => {
+//     if (err) {
+//       res.status(503);
+//       return res.render('error', { msg: 'An unexpected error occured, please try again' });
+//     }
 
-    if (foundRest.author.id.equals(req.user._id)) {
-      return next();
-    }
-    // User is not the author
-    res.sendStatus(403);
-    return res.render('error', { msg: 'You do not have permission to do this' });
-  });
-};
+//     if (foundDiary.author.id.equals(req.user._id)) {
+//       return next();
+//     }
+//     // User is not the author
+//     res.sendStatus(403);
+//     return res.render('error', { msg: 'You do not have permission to do this' });
+//   });
+// };
 
-exports.checkDishOwnership = (req, res, next) => {
-  Dish.findById(req.params.id, (err, foundDish) => {
+exports.checkPostOwnership = (req, res, next) => {
+  Post.findById(req.params.id, (err, foundPost) => {
     if (err) {
       res.status(503);
       return res.render('error', { msg: 'An unexpected error occured, please try again' });
     }
 
     // Check that user is the author
-    if (foundDish.author.id.equals(req.user._id)) {
+    if (foundPost.author.id.equals(req.user._id)) {
       return next();
     }
     // User is not author

@@ -7,9 +7,9 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const flash = require('connect-flash');
 const session = require('express-session');
-const restaurantRoutes = require('./routes/restaurants.js');
-const dishRoutes = require('./routes/dishes.js');
-const indexRoutes = require('./routes/index.js');
+const diaryRoutes = require('./routes/diary');
+const postRoutes = require('./routes/post');
+const indexRoutes = require('./routes/index');
 const User = require('./models/user.js');
 const middleware = require('./middleware');
 
@@ -43,8 +43,8 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use(middleware.setResLocals);
 
-app.use('/diary/:username/restaurants', restaurantRoutes);
-app.use('/diary/:username/restaurants/:id/dishes/', dishRoutes);
+app.use('/:username/diaries', diaryRoutes);
+app.use('/:username/diaries/:id/posts/', postRoutes);
 app.use('/', indexRoutes);
 
 app.use(middleware.unknownEndpoint);

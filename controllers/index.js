@@ -1,6 +1,6 @@
 const passport = require('passport');
 const User = require('../models/user');
-const Restaurant = require('../models/restaurant');
+const Diary = require('../models/diary');
 
 const loginPage = (req, res) => {
   res.render('login');
@@ -69,13 +69,13 @@ const userPage = (req, res, next) => {
       return res.render('error');
     }
 
-    Restaurant.find({ 'author.username': username }).populate('dishes').exec((err, restaurants) => {
+    Diary.find({ 'author.username': username }).populate('posts').exec((err, diaries) => {
       if (err) {
         return res.render('error');
       }
-      return res.render('diary', {
+      return res.render('diaries', {
         exists: true,
-        restaurants,
+        diaries,
         user: username,
         currentUser: req.user,
         displayName: foundUser.displayName,

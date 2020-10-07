@@ -2,7 +2,7 @@
 
 <div class="container">
     <div class="error-wrapper">
-        <% if (!msg) { %>
+        <% if (typeof(msg) == 'undefined') { %>
             <h1>Oh no! Something unexpected happened.</h1>
             <p>The link you followed may be broken, or the page may have been removed.<p>
         <% } else { %>

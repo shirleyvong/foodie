@@ -3,42 +3,55 @@
 <div class="container">
     <div class="row header-row">
         <div class="col-md-auto header-wrapper">
-            <h1 class="header"><%= displayName %>'s Diary</h1>
+            <h1 class="header"><%= diary.name %></h1>
         </div>
-        
+
         <% if (currentUser && currentUser.username === user) { %>
             <div class="col-md-auto header-wrapper">
-                <button type="button" class="header-btn" data-toggle="modal" data-target="#new-rest">
-                    New restaurant
+                <button type="button" class="header-btn" data-toggle="modal" data-target="#new-post">
+                    New post
+                </button>
+
+                <button type="button" class="header-btn" data-toggle="modal" data-target="#edit-post">
+                    Edit diary
+                </button>
+
+                <button type="button" class="header-btn" data-toggle="modal" data-target="#delete-post">
+                    Delete diary
                 </button>
             </div>
         <% } %>
-    </div>  
-
-    <!-- Grid for displaying image/link to restaurant -->
-    <div class="row">
-        <% restaurants.forEach(rest => { %>
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 rest-grid-col">
-                <div class="rest-grid-item">
-                    <div class="rest-grid-wrapper">
-                        <a href="/diary/<%= user %>/restaurants/<%= rest.id %>">
-                            <div class="rest-grid-item-name"><%= rest.name %></div>
-                            <% if (rest.dishes.length != 0) { %>
-                                <img src="<%= rest.dishes[0].image %>" class="rest-grid-item-img" alt="..."></img>
-                            <% } else { %>
-                                <div class="rest-grid-item-noimg">No dishes!</div>
-                            <% } %>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        <% }) %>
     </div>
 
-    <!-- Modal to add new restaurant -->
-    <% if (currentUser && currentUser.username === user) { %>
-        <% include ./newRestaurant %>
-    <% } %>
+    <!-- Grid to display posts from diary -->
+    <div class="row">
+        <div class="post-grid">
+            <% diary.posts.forEach(d => { %>
+                <div class="post-grid-item">
+                    <a href="/<%= user %>/diaries/<%= diary._id %>/posts/<%= d._id %>">
+                        <div class="post-grid-item-wrapper">
+                            <img class="post-grid-item-img" src="<%= d.image %>"> 
+                            <div class="post-grid-item-overlay">
+                                <div class="post-grid-item-name"><%= d.name %></div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            <% }) %>
+        </div>
+    </div>
 </div>
 
+<% if (currentUser && currentUser.username === user) { %>
+    <!-- Modal to add new post  -->
+    <% include ./newPost %>
+    
+    <!-- Modal to edit diary -->
+    <% include ./editDiary %>
+
+    <!-- Modal to delete diary -->
+    <% include ./deleteDiary %>
+<% } %>
+
 <% include ./partials/footer %>
+

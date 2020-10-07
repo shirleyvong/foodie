@@ -105,20 +105,20 @@ input, textarea {
   }
 }
 
-.dish-grid {
+.post-grid {
   text-align: center;
 }
 
 /* Masonry on lg, xl breakpoint */
 @media only screen and (min-width: 992px) {
-  .dish-grid {
+  .post-grid {
     column-count: 3;
   }
 }
 
 /* Masonry on md breakpoint */
 @media only screen and (max-width: 991px) and (min-width: 768px) {
-  .dish-grid {
+  .post-grid {
     column-count: 2;
   }
 }
@@ -126,34 +126,34 @@ input, textarea {
 
 /* Masonry on sm breakpoint */
 @media only screen and (max-width: 767px) and (min-width: 576px) {
-  .dish-grid {
+  .post-grid {
     column-count: 1;
   }
 }
 
 /* Masonry on xs breakpoint */
 @media only screen and (max-width: 575px) {
-  .dish-grid {
+  .post-grid {
     column-count: 1;
   }
 }
 
-.dish-grid-item {
+.post-grid-item {
   background-color: #eee;
   display: inline-block;
   margin: 0 0 1em;
 }
 
-.dish-grid-item-wrapper {
+.post-grid-item-wrapper {
   position: relative;
 }
 
-.dish-grid-item-img {
+.post-grid-item-img {
   max-width: 100%;
   height: auto;
 } 
 
-.dish-grid-item-name {
+.post-grid-item-name {
   text-align: center;
   color: white;
   position: absolute;
@@ -162,7 +162,7 @@ input, textarea {
   transform: translate(-50%, -50%);
 }
 
-.dish-grid-item-overlay {
+.post-grid-item-overlay {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -173,7 +173,7 @@ input, textarea {
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-.dish-grid-item-wrapper:hover .dish-grid-item-overlay {
+.post-grid-item-wrapper:hover .post-grid-item-overlay {
   opacity: 1;
 }
 
@@ -195,60 +195,60 @@ input, textarea {
   color: #999999;
 }
 
-.dish-show-center-col {
+.post-show-center-col {
   align-items: center;
   display: flex;
   flex-direction: column;
 }
 
-.dish-show-img {
+.post-show-img {
   margin-top: 1em;
 }
 
 @media screen and (min-width: 768px) {
-  .dish-show-img {
+  .post-show-img {
     max-width: 500px;
     max-height: 500px;
   }
 
-  .dish-show-body {
+  .post-show-body {
     max-width: 500px;
   }
 }
 
 @media screen and (max-width: 767px) {
-  .dish-show-img {
+  .post-show-img {
     max-width: 400px;
     max-height: 400px;
   }
 
-  .dish-show-body {
+  .post-show-body {
     max-width: 400px;
   }
 }
 
 @media screen and (max-width: 575px) {
-  .dish-show-img {
+  .post-show-img {
     max-width: 400px;
     max-height: 400px;
   }
 
-  .dish-show-body {
+  .post-show-body {
     max-width: 400px;
   }
 }
 
-.dish-show-title {
+.post-show-title {
   padding: 1em 1em 0 1em;
   display: flex;
   justify-content: space-between;
 }
 
-.dish-show-comment {
+.post-show-comment {
   padding: 0 1em 3em 1em;
 }
 
-.dish-show-btn-row {
+.post-show-btn-row {
   text-align: center;
   padding-top: 1em;
 }

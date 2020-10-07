@@ -8,31 +8,31 @@
         </div>
 
         <!-- Center of page -->
-        <div class="col dish-show-center-col">
+        <div class="col post-show-center-col">
             <div class="row header-row">
                 <div class="col header-wrapper">
-                    <h1 class="header"><%= restaurant.name %></h1>
+                    <h1 class="header"><%= diary.name %></h1>
                 </div>
             </div>        
             
-            <div class="dish-show-body">
+            <div class="post-show-body">
                 <div class="row-auto">
-                    <img class="dish-show-img" src="<%= dish.image %>">
+                    <img class="post-show-img" src="<%= post.image %>">
                 </div>
-                <div class="row-auto dish-show-title">
-                    <h3><%= dish.name %></h3>
-                    <h3>$<%= dish.price %></h3>
+                <div class="row-auto post-show-title">
+                    <h3><%= post.name %></h3>
+                    <h3>$<%= post.price %></h3>
                 </div>
-                <div class="row-auto dish-show-comment">
-                    <p><%= dish.comment %></p>
+                <div class="row-auto post-show-comment">
+                    <p><%= post.comment %></p>
                 </div>
                 
                 <% if (currentUser && currentUser.username === user) { %>
-                    <div class="row-auto dish-show-btn-row">
-                        <button type="button" class="header-btn" data-toggle="modal" data-target="#edit-dish" >
+                    <div class="row-auto post-show-btn-row">
+                        <button type="button" class="header-btn" data-toggle="modal" data-target="#edit-post" >
                             Edit
                         </button>
-                        <button type="button" class="header-btn" data-toggle="modal" data-target="#delete-dish" >
+                        <button type="button" class="header-btn" data-toggle="modal" data-target="#delete-post" >
                             Delete
                         </button>
                     </div>
@@ -57,11 +57,11 @@
     </div>
 
     <% if (currentUser && currentUser.username === user) { %>
-        <!-- Modal to edit dish -->
-        <% include ./editDish %>
+        <!-- Modal to edit post -->
+        <% include ./editPost %>
 
-        <!-- Modal to delete dish -->
-        <% include ./deleteDish %>
+        <!-- Modal to delete post -->
+        <% include ./deletePost %>
 
     <% } %>
 </div>
