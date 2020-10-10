@@ -1,28 +1,28 @@
+<!-- TODO: Replace <br> with styling  -->
+
 <div class="modal fade" id="new-post" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Add new post</h5>
-                <button type="button" class="close" data-dismiss="modal">
-                    <span>&times;</span>
-                </button>
-            </div>
-            <form action="/<%= user %>/diaries/<%= diary._id %>/posts" method="post">
-                <div class="modal-body">                            
-                    <div>Name:</div>
-                    <input id="name" type="text" name="name" required><br>
-                    <div>Image URL:</div>
-                    <input type="url" name="image" required><br>
-                    <div>Price:</div>
-                    <input type="number" name="price" min="0.01" step="0.01" required><br>    
-                    <div>Comment:</div>
-                    <textarea type="text" name="comment" rows="10" required></textarea><br>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn modal-btn-close" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn modal-btn-action" readonly>Add</button>
-                </div>
-            </form>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add new post</h5>
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+      <form action="/<%= user %>/diaries/<%= diary._id %>/posts" method="post">
+        <div class="modal-body">
+          <div>Image URL:</div>
+          <input type="url" name="image" required>
+          <br>
+          <div>Comment:</div>
+          <textarea type="text" name="comment" rows="10" required></textarea>
+          <br>
         </div>
+        <div class="modal-footer">
+          <button type="button" class="btn modal-btn-close" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn modal-btn-action" readonly>Add</button>
+        </div>
+      </form>
     </div>
+  </div>
 </div>

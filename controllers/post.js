@@ -44,9 +44,7 @@ const getPost = (req, res) => {
 
 const editPost = (req, res) => {
   const updatedPost = {
-    name: req.body.name,
     image: req.body.image,
-    price: req.body.price,
     comment: req.body.comment,
   };
 
@@ -94,9 +92,7 @@ const createPost = (req, res) => {
     }
 
     const newPost = {
-      name: req.body.name,
       image: req.body.image,
-      price: req.body.price,
       comment: req.body.comment,
       author: {
         id: req.user._id,
