@@ -245,7 +245,7 @@ input, textarea {
 }
 
 .post-show-comment {
-  padding: 0 1em 3em 1em;
+  padding: 10px;
 }
 
 .post-show-btn-row {

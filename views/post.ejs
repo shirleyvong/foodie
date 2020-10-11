@@ -1,69 +1,51 @@
 <% include ./partials/header %>
 
 <div class="container">
-    <div class="row flex-nowrap">
-        <!-- Left side of page for nav -->
-        <div class="col-sm-1 d-none d-sm-flex side-arrow-wrapper">
-            <h3 class="arrow">&lt;</h3>
+  <div class="row flex-nowrap">
+    <div class="col post-show-center-col">
+      <div class="row header-row">
+        <div class="col header-wrapper">
+          <h1 class="header"><%= diary.name %></h1>
+        </div>
+      </div>
+
+      <div class="post-show-body">
+        <div class="row-auto">
+          <img class="post-show-img" src="<%= post.image %>">
+        </div>
+        <div class="row-auto post-show-comment">
+          <p><%= post.comment %></p>
         </div>
 
-        <!-- Center of page -->
-        <div class="col post-show-center-col">
-            <div class="row header-row">
-                <div class="col header-wrapper">
-                    <h1 class="header"><%= diary.name %></h1>
-                </div>
-            </div>        
-            
-            <div class="post-show-body">
-                <div class="row-auto">
-                    <img class="post-show-img" src="<%= post.image %>">
-                </div>
-                <div class="row-auto post-show-title">
-                    <h3><%= post.name %></h3>
-                    <h3>$<%= post.price %></h3>
-                </div>
-                <div class="row-auto post-show-comment">
-                    <p><%= post.comment %></p>
-                </div>
-                
-                <% if (currentUser && currentUser.username === user) { %>
-                    <div class="row-auto post-show-btn-row">
-                        <button type="button" class="header-btn" data-toggle="modal" data-target="#edit-post" >
-                            Edit
-                        </button>
-                        <button type="button" class="header-btn" data-toggle="modal" data-target="#delete-post" >
-                            Delete
-                        </button>
-                    </div>
-                <% } %>
-            </div>
-        </div>
-
-        <!-- Right side of page for nav -->
-        <div class="col-sm-1 d-none d-sm-flex side-arrow-wrapper">
-            <h3 class="arrow">&gt;</h3>
-        </div>
+        <% if (currentUser && currentUser.username === user) { %>
+          <div class="row-auto post-show-btn-row">
+            <button
+              type="button"
+              class="header-btn"
+              data-toggle="modal"
+              data-target="#edit-post"
+            >
+              Edit
+            </button>
+            <button
+              type="button"
+              class="header-btn"
+              data-toggle="modal"
+              data-target="#delete-post"
+            >
+              Delete
+            </button>
+          </div>
+        <% } %>
+      </div>
     </div>
-    
-    <!-- Nav buttons for smaller viewports -->
-    <div class="row p-3">
-        <div class="col d-block d-sm-none">
-            <div class="d-flex bottom-arrow-wrapper">
-                <h3 class="arrow">&lt;</h3>
-                <h3 class="arrow">&gt;</h3>
-            </div>
-        </div>
-    </div>
+  </div>
 
-    <% if (currentUser && currentUser.username === user) { %>
-        <!-- Modal to edit post -->
-        <% include ./editPost %>
 
-        <!-- Modal to delete post -->
-        <% include ./deletePost %>
-
-    <% } %>
+  <% if (currentUser && currentUser.username === user) { %>
+    <% include ./editPost %>
+    <% include ./deletePost %>
+  <% } %>
 </div>
 
 <% include ./partials/footer %>

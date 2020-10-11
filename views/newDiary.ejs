@@ -1,23 +1,23 @@
 <div class="modal fade" id="new-rest" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Add new diary</h5>
-                <button type="button" class="close" data-dismiss="modal">
-                    <span>&times;</span>
-                </button>
-            </div>
-            <form id="new-rest-form" action="/<%= user %>/diaries" method="POST">
-                <div class="modal-body">
-                    <div>Diary name:</div>
-                    <input id="new-rest-name" type="text" name="name" required>
-                </div>
-                <p class="missing-input-msg"></p>
-                <div class="modal-footer">
-                    <button type="button" class="btn modal-btn-close" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn modal-btn-action">Add</button>
-                </div>
-            </form>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Create diary</h5>
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+      <form id="new-rest-form" action="/<%= user %>/diaries" method="POST">
+        <div class="modal-body">
+          <div>Diary name:</div>
+          <input id="new-rest-name" type="text" name="name" required>
         </div>
+        <p class="missing-input-msg"></p>
+        <div class="modal-footer">
+          <button type="button" class="btn modal-btn-close" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn modal-btn-action">Create</button>
+        </div>
+      </form>
     </div>
+  </div>
 </div>

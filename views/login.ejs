@@ -1,19 +1,31 @@
-<% include ./partials/header %>        
+<% include ./partials/header %>
 
 <div class="container">
-    <div class="login-container">
-        <h3>Login</h3>
-
-        <form id="login-form" action="/login" method="POST">
-            <input class="form-control" id="login-username" type="text" name="username" placeholder="username"><br>
-            <input class="form-control" id="login-password" type="password" name="password" placeholder="password"><br>
-            <p class="missing-input-msg"></p>
-            <input class="btn modal-btn-action" onclick="validate()" value="Login" readonly>
-        </form>
-    </div>
-</div>        
+  <div class="login-container">
+    <h3>Login</h3>
+    <form id="login-form" action="/login" method="POST">
+      <input
+        class="form-control"
+        id="login-username"
+        type="text"
+        name="username"
+        placeholder="username"
+      >
+      <br>
+      <input
+        class="form-control"
+        id="login-password"
+        type="password"
+        name="password"
+        placeholder="password"
+      >
+      <br>
+      <p class="missing-input-msg"></p>
+      <input class="btn modal-btn-action" onclick="validate()" value="Login" readonly>
+    </form>
+  </div>
+</div>
 
 <script type="text/javascript" src="js/login.js"></script>
 
-<% include ./partials/footer %>        
- 
+<% include ./partials/footer %>

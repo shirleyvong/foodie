@@ -1,57 +1,46 @@
 <% include ./partials/header %>
 
 <div class="container">
-    <div class="row header-row">
-        <div class="col-md-auto header-wrapper">
-            <h1 class="header"><%= diary.name %></h1>
-        </div>
+  <div class="row header-row">
+    <div class="col-md-auto header-wrapper">
+      <h1 class="header"><%= diary.name %></h1>
+    </div>
 
-        <% if (currentUser && currentUser.username === user) { %>
-            <div class="col-md-auto header-wrapper">
-                <button type="button" class="header-btn" data-toggle="modal" data-target="#new-post">
-                    New post
-                </button>
+    <% if (currentUser && currentUser.username === user) { %>
+      <div class="col-md-auto header-wrapper">
+        <button type="button" class="header-btn" data-toggle="modal" data-target="#new-post">
+          New post
+        </button>
+        <button type="button" class="header-btn" data-toggle="modal" data-target="#edit-post">
+          Edit diary
+        </button>
+        <button type="button" class="header-btn" data-toggle="modal" data-target="#delete-post">
+          Delete diary
+        </button>
+      </div>
+    <% } %>
+  </div>
 
-                <button type="button" class="header-btn" data-toggle="modal" data-target="#edit-post">
-                    Edit diary
-                </button>
-
-                <button type="button" class="header-btn" data-toggle="modal" data-target="#delete-post">
-                    Delete diary
-                </button>
+  <div class="row">
+    <div class="post-grid">
+      <% diary.posts.forEach(post => { %>
+        <div class="post-grid-item">
+          <a href="/<%= user %>/diaries/<%= diary._id %>/posts/<%= post._id %>">
+            <div class="post-grid-item-wrapper">
+              <img class="post-grid-item-img" src="<%= post.image %>">
+              <div class="post-grid-item-overlay"></div>
             </div>
-        <% } %>
-    </div>
-
-    <!-- Grid to display posts from diary -->
-    <div class="row">
-        <div class="post-grid">
-            <% diary.posts.forEach(d => { %>
-                <div class="post-grid-item">
-                    <a href="/<%= user %>/diaries/<%= diary._id %>/posts/<%= d._id %>">
-                        <div class="post-grid-item-wrapper">
-                            <img class="post-grid-item-img" src="<%= d.image %>"> 
-                            <div class="post-grid-item-overlay">
-                                <div class="post-grid-item-name"><%= d.name %></div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            <% }) %>
+          </a>
         </div>
+      <% }) %>
     </div>
+  </div>
 </div>
 
 <% if (currentUser && currentUser.username === user) { %>
-    <!-- Modal to add new post  -->
-    <% include ./newPost %>
-    
-    <!-- Modal to edit diary -->
-    <% include ./editDiary %>
-
-    <!-- Modal to delete diary -->
-    <% include ./deleteDiary %>
+  <% include ./newPost %>
+  <% include ./editDiary %>
+  <% include ./deleteDiary %>
 <% } %>
 
 <% include ./partials/footer %>
-

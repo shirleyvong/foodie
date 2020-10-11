@@ -1,44 +1,42 @@
 <% include ./partials/header %>
 
 <div class="container">
-    <div class="row header-row">
-        <div class="col-md-auto header-wrapper">
-            <h1 class="header"><%= displayName %>'s Diary</h1>
-        </div>
-        
-        <% if (currentUser && currentUser.username === user) { %>
-            <div class="col-md-auto header-wrapper">
-                <button type="button" class="header-btn" data-toggle="modal" data-target="#new-rest">
-                    New diary
-                </button>
-            </div>
-        <% } %>
-    </div>  
-
-    <!-- Grid for displaying image/link to diary -->
-    <div class="row">
-        <% diaries.forEach(rest => { %>
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 rest-grid-col">
-                <div class="rest-grid-item">
-                    <div class="rest-grid-wrapper">
-                        <a href="/<%= user %>/diaries/<%= rest.id %>">
-                            <div class="rest-grid-item-name"><%= rest.name %></div>
-                            <% if (rest.posts.length != 0) { %>
-                                <img src="<%= rest.posts[0].image %>" class="rest-grid-item-img" alt="..."></img>
-                            <% } else { %>
-                                <div class="rest-grid-item-noimg">No posts!</div>
-                            <% } %>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        <% }) %>
+  <div class="row header-row">
+    <div class="col-md-auto header-wrapper">
+      <h1 class="header"><%= displayName %>'s Diaries</h1>
     </div>
 
-    <!-- Modal to add new diary -->
     <% if (currentUser && currentUser.username === user) { %>
-        <% include ./newDiary %>
+      <div class="col-md-auto header-wrapper">
+        <button type="button" class="header-btn" data-toggle="modal" data-target="#new-rest">
+          New diary
+        </button>
+      </div>
     <% } %>
+  </div>
+
+  <div class="row">
+    <% diaries.forEach(diary => { %>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 rest-grid-col">
+        <div class="rest-grid-item">
+          <div class="rest-grid-wrapper">
+            <a href="/<%= user %>/diaries/<%= rest.id %>">
+              <div class="rest-grid-item-name"><%= diary.name %></div>
+              <% if (diary.posts.length != 0) { %>
+                <img src="<%= rest.posts[0].image %>" class="rest-grid-item-img" alt="..."></img>
+              <% } else { %>
+                <div class="rest-grid-item-noimg">No posts!</div>
+              <% } %>
+            </a>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+
+  <% if (currentUser && currentUser.username === user) { %>
+    <% include ./newDiary %>
+  <% } %>
 </div>
 
 <% include ./partials/footer %>

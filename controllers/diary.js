@@ -69,7 +69,7 @@ const getDiary = (req, res) => {
     if (!diary) {
       res.status(404);
       return res.render('error', {
-        msg: 'The diary you are trying to update does not exist.',
+        msg: 'The diary you are trying to access does not exist.',
       });
     }
 
