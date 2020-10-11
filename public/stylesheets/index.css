@@ -320,9 +320,15 @@ input, textarea {
 .missing-input-msg {
   text-align: center;
   color: red;
+  display: none;
 }
 
 .invalid-img {
   width: 300px;
   height: 300px;
+}
+
+input.form-control {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }

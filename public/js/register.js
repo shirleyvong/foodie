@@ -8,6 +8,7 @@ function validate() {
   username.classList.remove('missing-input');
   password.classList.remove('missing-input');
   confirm.classList.remove('missing-input');
+  msg.style.display = 'block';
 
   if (username.value.length === 0) {
     msg.innerHTML = 'Username is required.';

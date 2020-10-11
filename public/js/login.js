@@ -6,6 +6,7 @@ const msg = document.getElementsByClassName('missing-input-msg')[0];
 function validate() {
   username.classList.remove('missing-input');
   password.classList.remove('missing-input');
+  msg.style.display = 'block';
 
   if (username.value.length === 0) {
     msg.innerHTML = 'Username is required.';
