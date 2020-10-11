@@ -1,4 +1,4 @@
-<div class="modal fade" id="new-rest" tabindex="-1" role="dialog">
+<div class="modal fade" id="new-diary" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -7,10 +7,10 @@
           <span>&times;</span>
         </button>
       </div>
-      <form id="new-rest-form" action="/<%= user %>/diaries" method="POST">
+      <form id="new-diary-form" action="/<%= user %>/diaries" method="POST">
         <div class="modal-body">
           <div>Diary name:</div>
-          <input id="new-rest-name" type="text" name="name" required>
+          <input id="new-diary-name" type="text" name="name" required>
         </div>
         <p class="missing-input-msg"></p>
         <div class="modal-footer">

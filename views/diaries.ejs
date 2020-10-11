@@ -8,7 +8,7 @@
 
     <% if (currentUser && currentUser.username === user) { %>
       <div class="col-md-auto header-wrapper">
-        <button type="button" class="header-btn" data-toggle="modal" data-target="#new-rest">
+        <button type="button" class="header-btn" data-toggle="modal" data-target="#new-diary">
           New diary
         </button>
       </div>
@@ -17,15 +17,15 @@
 
   <div class="row">
     <% diaries.forEach(diary => { %>
-      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 rest-grid-col">
-        <div class="rest-grid-item">
-          <div class="rest-grid-wrapper">
-            <a href="/<%= user %>/diaries/<%= rest.id %>">
-              <div class="rest-grid-item-name"><%= diary.name %></div>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 diary-grid-col">
+        <div class="diary-grid-item">
+          <div class="diary-grid-wrapper">
+            <a href="/<%= user %>/diaries/<%= diary.id %>">
+              <div class="diary-grid-item-name"><%= diary.name %></div>
               <% if (diary.posts.length != 0) { %>
-                <img src="<%= rest.posts[0].image %>" class="rest-grid-item-img" alt="..."></img>
+                <img src="<%= diary.posts[0].image %>" class="diary-grid-item-img" alt="..."></img>
               <% } else { %>
-                <div class="rest-grid-item-noimg">No posts!</div>
+                <div class="diary-grid-item-noimg">No posts!</div>
               <% } %>
             </a>
           </div>
