@@ -10,7 +10,7 @@
       <form action="/<%= user %>/diaries/<%= diary._id %>?_method=PUT" method="POST">
         <div class="modal-body">
           <div>Diary name:</div>
-          <input type="text" name="diary[name]" value="<%= diary.name %>" required>
+          <input type="text" name="diary[name]" maxlength="30" value="<%= diary.name %>" required>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn modal-btn-close" data-dismiss="modal">Close</button>
