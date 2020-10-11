@@ -11,7 +11,11 @@ const registerPage = (req, res) => {
 };
 
 const register = (req, res) => {
-  const newUser = new User({ username: req.body.username, displayName: req.body.username });
+  const newUser = new User({
+    username: req.body.username,
+    displayName: req.body.username,
+  });
+
   User.register(newUser, req.body.password, (err, registeredUser) => {
     if (err) {
       req.flash('error', err.message);
@@ -31,7 +35,9 @@ const login = (req, res) => {
   passport.authenticate('local', (err, user, info) => {
     if (err) {
       res.status(503);
-      return res.render('error', { msg: 'An unexpected error occured, please try again later' });
+      return res.render('error', {
+        msg: 'An unexpected error occured, please try again later',
+      });
     }
 
     if (!user) {
@@ -42,7 +48,9 @@ const login = (req, res) => {
     req.logIn(user, (err) => {
       if (err) {
         res.status(503);
-        return res.render('error', { msg: 'An unexpected error occured, please try again later' });
+        return res.render('error', {
+          msg: 'An unexpected error occured, please try again later',
+        });
       }
 
       res.redirect(`/${req.user.username}`);
@@ -59,28 +67,41 @@ const homePage = (req, res) => {
   if (req.user) {
     return res.redirect(`/${req.user.username}`);
   }
+
   return res.render('home');
 };
 
 const userPage = (req, res, next) => {
-  const username = req.params.username.toLowerCase();
-  User.findOne({ username }, (err, foundUser) => {
-    if (err || !foundUser) {
-      return res.render('error');
+  const { username } = req.params;
+
+  User.findOne({ username: username.toLowerCase() }, (err, foundUser) => {
+    if (err) {
+      return res.render('error', {
+        msg: 'An unexpected error occured, please try again later',
+      });
     }
 
-    Diary.find({ 'author.username': username }).populate('posts').exec((err, diaries) => {
-      if (err) {
-        return res.render('error');
-      }
-      return res.render('diaries', {
-        exists: true,
-        diaries,
-        user: username,
-        currentUser: req.user,
-        displayName: foundUser.displayName,
+    if (!foundUser) {
+      return res.render('error', {
+        msg: `User ${username} does not exist`,
       });
-    });
+    }
+
+    Diary
+      .find({ 'author.username': username })
+      .populate('posts')
+      .exec((err, diaries) => {
+        if (err) {
+          return res.render('error');
+        }
+        return res.render('diaries', {
+          exists: true,
+          diaries,
+          user: username,
+          currentUser: req.user,
+          displayName: foundUser.displayName,
+        });
+      });
   });
 };
 
