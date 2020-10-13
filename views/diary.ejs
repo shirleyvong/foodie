@@ -26,10 +26,7 @@
       <% diary.posts.forEach(post => { %>
         <div class="post-grid-item">
           <a href="/<%= user %>/diaries/<%= diary._id %>/posts/<%= post._id %>">
-            <div class="post-grid-item-wrapper">
-              <img class="post-grid-item-img" src="<%= post.image %>">
-              <div class="post-grid-item-overlay"></div>
-            </div>
+            <img class="post-grid-item-img" src="<%= post.image %>">
           </a>
         </div>
       <% }) %>

@@ -21,13 +21,17 @@
         <div class="diary-grid-item">
           <div class="diary-grid-wrapper">
             <a href="/<%= user %>/diaries/<%= diary.id %>">
-              <div class="diary-grid-item-name"><%= diary.name %></div>
               <% if (diary.posts.length != 0) { %>
                 <img src="<%= diary.posts[0].image %>" class="diary-grid-item-img" alt="..."></img>
               <% } else { %>
-                <div class="diary-grid-item-noimg">No posts!</div>
+                <div class="diary-grid-item-noimg"></div>
               <% } %>
             </a>
+            <div>
+              <a href="/<%= user %>/diaries/<%= diary.id %>" class="diary-grid-item-name">
+                <%= diary.name %>
+              </a>
+            </div>
           </div>
         </div>
       </div>

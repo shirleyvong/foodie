@@ -52,25 +52,21 @@ input, textarea {
   align-items: center;
 }
 
-.diary-grid-item-name {
-  text-align: center;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  background: rgba(0, 0, 0, 0.6);
-  color: white;
-}
-
 .diary-grid-item-img {
   object-fit: cover;
-} 
+  transition: 0.5s;
+}
+
+.diary-grid-item-img:hover {
+  opacity: 0.7;
+}
 
 .diary-grid-item-noimg{
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(255, 84, 50, 0.5);
-  color: #6c757d;
+  background-color: rgb(200, 200, 200);
+  color: white;
 }
 
 @media screen and (min-width: 768px) {
@@ -151,7 +147,11 @@ input, textarea {
 .post-grid-item-img {
   max-width: 100%;
   height: auto;
-} 
+}
+
+.post-grid-item-img:hover {
+  opacity: 0.7;
+}
 
 .post-grid-item-name {
   text-align: center;
@@ -160,21 +160,6 @@ input, textarea {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-}
-
-.post-grid-item-overlay {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  opacity: 0;
-  transition: .5s ease;
-  background-color: rgba(0, 0, 0, 0.4);
-}
-
-.post-grid-item-wrapper:hover .post-grid-item-overlay {
-  opacity: 1;
 }
 
 .side-arrow-wrapper {
@@ -331,4 +316,8 @@ input, textarea {
 input.form-control {
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+a.diary-grid-item-name {
+  color: black;
 }
