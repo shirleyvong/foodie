@@ -1,7 +1,7 @@
 <% include ./partials/header %>
 
 <div class="container">
-  <div class="row header-row">
+  <div class="header-row">
     <div class="col-md-auto header-wrapper">
       <h1 class="header"><%= diary.name %></h1>
     </div>
@@ -20,6 +20,10 @@
       </div>
     <% } %>
   </div>
+
+  <% if (diary.posts.length == 0) { %>
+    <p class="empty-page-text">This diary does not have any posts.</p>
+  <% } %>
 
   <div class="row">
     <div class="post-grid">

@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
 html, body {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Inter', sans-serif;
   height: 100%;
 }
 
@@ -9,19 +11,13 @@ input, textarea {
 
 .header-row {
   align-items: center;
-  border-bottom: 2px solid rgb(255, 84, 50);
   justify-content: space-between;
-  margin-bottom: 1.5em;
   width: 100%;
+  display: flex;
 }
 
 .header-wrapper {
-  margin-top: rem;
   text-align: center;
-}
-
-.header {
-  margin: 0.5rem;
 }
 
 .header-btn {
@@ -236,6 +232,7 @@ input, textarea {
 .post-show-btn-row {
   text-align: center;
   padding-top: 1em;
+  padding-bottom: 1em;
 }
 
 .modal-btn-close {
@@ -320,4 +317,8 @@ input.form-control {
 
 a.diary-grid-item-name {
   color: black;
+}
+
+.empty-page-text {
+  text-align: center;
 }
