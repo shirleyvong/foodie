@@ -14,7 +14,7 @@
     "connect-flash": "^0.1.1",
     "dotenv": "^8.2.0",
     "ejs": "^2.6.1",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "express-session": "^1.15.6",
     "is-image-url": "^1.1.8",
     "jquery": "^3.5.1",
